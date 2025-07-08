@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pesan Nota NCR</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      padding: 16px;
+    }
+    form {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      max-width: 520px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .deskripsi {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #d35400;
+      background: #fff6e5;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    .note b {
+      display: block;
+      font-size: 16px;
+      color: #c0392b;
+      margin-bottom: 6px;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      background-color: #25d366;
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1ebe5d;
+    }
+    small {
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <form onsubmit="sendToWhatsApp(); return false;">
+      <h2>Pesan "Nota NCR"</h2>
+      <div class="deskripsi">
+        Bagi Anda yang memiliki usaha, seperti distro, toko sembako, laundry dan lainnya pasti menggunakan nota untuk setiap transaksinya. Supaya lebih cepat, bersih dan tidak ribet, Anda bisa menggunakan nota non-carbon yang warna-warni. Bisa dibuat menjadi 2-4 lapis sekaligus dengan warna yang berbeda.<br><br>
+        Jenis Nota itu sering disebut dengan Nota NCR, yaitu nota yang dibuat menggunakan kertas kertas khusus, kertas NCR. Kertas NCR (No Carbon Required) adalah kertas khusus yang tembus warna tanpa menggunakan karbon. Jenis kertas ini bisa mentransfer informasi dari kertas lapisan atas ke lapisan di bawahnya. Tidak hanya digunakan untuk nota saja, Anda bisa menggunakan jenis kertas ini sebagai kwitansi maupun formulir untuk usaha Anda.
+      </div>
+
+      <label>Nama Anda</label>
+      <input type="text" id="nama" required>
+
+      <label>Nomor WhatsApp Anda</label>
+      <input type="tel" id="nowa" pattern="[0-9]+" required>
+
+      <label>Posisi</label>
+      <select id="posisi">
+        <option value="Landscape">Landscape (Tidur)</option>
+        <option value="Potrait">Potrait (Berdiri)</option>
+      </select>
+
+      <label>Ukuran</label>
+      <select id="ukuran">
+        <option value="1/4 Folio">1/4 Folio</option>
+        <option value="1/3 Folio">1/3 Folio</option>
+        <option value="1/2 Folio">1/2 Folio</option>
+      </select>
+
+      <label>Jenis Nota</label>
+      <select id="jenis">
+        <option value="1 Warna (2 Rangkap)">1 Warna (2 Rangkap)</option>
+        <option value="2 Warna (3 Rangkap)">2 Warna (3 Rangkap)</option>
+      </select>
+
+      <label>Tambah</label>
+      <div>
+        <input type="checkbox" id="warna"> Tambah 1 Warna<br>
+        <input type="checkbox" id="numerator"> Tambah Numerator<br>
+        <input type="checkbox" id="porporasi"> Tambah Porporasi
+      </div>
+
+      <label>Jumlah Nota</label>
+      <input type="number" id="jumlah" value="20" required>
+      <small>Minim Kelipatan 20 Buku</small>
+
+      <label>Kapan Dibutuhkan?</label>
+      <input type="date" id="tanggal" required>
+
+      <label>Pada Jam Berapa?</label>
+      <input type="time" id="jam" required>
+
+      <label>Catatan Khusus untuk Admin Kami</label>
+      <textarea id="catatan" rows="4"></textarea>
+
+      <div class="note">
+        <b>Penting !</b>
+        Estimasi Dateline Yang Anda Atur Bisa Berubah Sesuai Kondisi Antrian, Anda Bisa Atur Negosiasi Waktu Dateline Dengan Admin Kami. <b>"Pastikan File Anda Ready / Siap Print"</b>
+      </div>
+
+      <button type="submit">Cek Harga ke Admin Metropolis Print</button>
+    </form>
+  </div>
+
+  <script>
+    function formatTanggalIndo(tanggalInput) {
+      const bulanIndo = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const hariIndo = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+      const dateObj = new Date(tanggalInput);
+      const hari = hariIndo[dateObj.getDay()];
+      const tanggal = dateObj.getDate();
+      const bulan = bulanIndo[dateObj.getMonth()];
+      const tahun = dateObj.getFullYear();
+      return `${hari}, ${tanggal} ${bulan} ${tahun}`;
+    }
+
+    function sendToWhatsApp() {
+      const adminWa = "6282335222268";
+      const nama = document.getElementById("nama").value;
+      const nowa = document.getElementById("nowa").value;
+      const posisi = document.getElementById("posisi").value;
+      const ukuran = document.getElementById("ukuran").value;
+      const jenis = document.getElementById("jenis").value;
+      const warna = document.getElementById("warna").checked ? "✔ Tambah 1 Warna\n" : "";
+      const numerator = document.getElementById("numerator").checked ? "✔ Tambah Numerator\n" : "";
+      const porporasi = document.getElementById("porporasi").checked ? "✔ Tambah Porporasi\n" : "";
+      const jumlah = document.getElementById("jumlah").value;
+      const tanggal = formatTanggalIndo(document.getElementById("tanggal").value);
+      const jam = document.getElementById("jam").value;
+      const catatan = document.getElementById("catatan").value || "-";
+
+      const pesan =
+        `📌 Pemesanan Nota NCR\n\n` +
+        `👤 Nama: ${nama}\n` +
+        `📱 No. WA: ${nowa}\n` +
+        `📄 Posisi: ${posisi}\n` +
+        `📏 Ukuran: ${ukuran}\n` +
+        `🖨️ Jenis Nota: ${jenis}\n` +
+        `${warna}${numerator}${porporasi}` +
+        `📦 Jumlah: ${jumlah} Buku\n` +
+        `🗓️ Tanggal: ${tanggal}\n` +
+        `⏰ Jam: ${jam}\n` +
+        `📝 Catatan: ${catatan}`;
+
+      const url = `https://wa.me/${adminWa}?text=${encodeURIComponent(pesan)}`;
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
